@@ -64,6 +64,38 @@ e5_instruct = ModelMeta(
     training_datasets=ME5_TRAINING_DATA,
 )
 
+from mteb.models.hftei_wrapper import hftei_instruct_loader
+
+e5_instruct_api = ModelMeta(
+    loader=partial(  # type: ignore
+        hftei_instruct_loader,
+        base_url="http://ai1.dev.init:8001",
+        model_name_or_path="intfloat/multilingual-e5-large-instruct",
+        max_tokens=512,
+        instruction_template=E5_INSTRUCTION,
+        normalize=True,
+        # truncate=True,
+    ),
+    name="hftei/intfloat/multilingual-e5-large-instruct",
+    languages=XLMR_LANGUAGES,
+    open_weights=True,
+    revision="baa7be480a7de1539afce709c8f13f833a510e0a",
+    release_date=E5_PAPER_RELEASE_DATE,
+    framework=["GritLM", "PyTorch", "Sentence Transformers"],
+    similarity_fn_name="cosine",
+    use_instructions=True,
+    reference="https://huggingface.co/intfloat/multilingual-e5-large-instruct",
+    n_parameters=560_000_000,
+    memory_usage_mb=1068,
+    embed_dim=1024,
+    license="mit",
+    max_tokens=514,
+    adapted_from="FacebookAI/xlm-roberta-large",
+    public_training_code=None,
+    public_training_data=None,
+    training_datasets=ME5_TRAINING_DATA,
+)
+
 e5_mistral = ModelMeta(
     loader=partial(  # type: ignore
         instruct_wrapper,
