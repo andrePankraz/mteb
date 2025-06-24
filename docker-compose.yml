@@ -1,0 +1,34 @@
+# See environment variables in file ".env"
+version: '3.8'
+services:
+  mteb:
+    build:
+      dockerfile: Dockerfile
+      target: ${TARGET:-dev} # dev (Default) or run
+    image: mteb:${TARGET:-dev}
+    container_name: mteb
+    ipc: host
+    deploy:
+      resources:
+        limits:
+          memory: 8g
+        reservations:
+          devices:
+            - driver: nvidia
+              capabilities: [ gpu ]
+    stdin_open: true # docker run -i
+    tty: true # docker run -t
+    volumes:
+      - .:/opt/mteb
+      - /mnt/sda/huggingface:/root/.cache/huggingface
+    # network_mode: host # Overrides all other network settings
+    # networks:
+    #   - app-tier
+    ports:
+      - 8200:8200
+
+networks:
+  default:
+    driver_opts:
+      com.docker.network.driver.mtu: 1450
+  app-tier:
