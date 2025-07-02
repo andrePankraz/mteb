@@ -132,6 +132,8 @@ class InstructHfteiWrapper(Wrapper):
             else kwargs.pop("show_progress_bar")
         )
 
+        mrl_dim = kwargs.get("mrl_dim")  # optional matryoshka-dim cut
+
         no_empty_embeddings = []
 
         for sublist in tqdm.tqdm(sublists, leave=False, disable=not show_progress_bar):
@@ -192,7 +194,16 @@ class InstructHfteiWrapper(Wrapper):
 
         no_empty_embeddings = np.array(no_empty_embeddings)
 
-        all_embeddings = np.zeros((len(sentences), self._embed_dim), dtype=np.float32)
+        # ---- matryoshka dimension cut --------------------------------- #
+        target_dim = (
+            mrl_dim
+            if mrl_dim is not None and 0 < mrl_dim < self._embed_dim
+            else self._embed_dim
+        )
+        if target_dim < self._embed_dim:  # slice to first n dims
+            no_empty_embeddings = no_empty_embeddings[:, :target_dim]
+
+        all_embeddings = np.zeros((len(sentences), target_dim), dtype=np.float32)
         if len(mask) > 0:
             mask = np.array(mask, dtype=int)
             all_embeddings[mask] = no_empty_embeddings

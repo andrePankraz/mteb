@@ -199,7 +199,7 @@ Qwen3_Embedding_8B = ModelMeta(
 
 from mteb.models.hftei_wrapper import hftei_instruct_loader
 
-Qwen3_Embedding_0B6 = ModelMeta(
+Qwen3_Embedding_0B6_TEI = ModelMeta(
     loader=partial(  # type: ignore
         hftei_instruct_loader,
         base_url="http://ai1.dev.init:8011",
@@ -222,6 +222,36 @@ Qwen3_Embedding_0B6 = ModelMeta(
     reference="https://huggingface.co/Qwen/Qwen3-Embedding-0.6B",
     similarity_fn_name="cosine",
     framework=["API"],
+    use_instructions=True,
+    public_training_code=None,
+    public_training_data=None,
+    training_datasets=training_data,
+)
+
+
+Qwen3_Embedding_4B_TEI = ModelMeta(
+    loader=partial(  # type: ignore
+        hftei_instruct_loader,
+        base_url="http://ai1.dev.init:8012",
+        model_name_or_path=os.environ.get("Q3E_0B6_PATH", "Qwen/Qwen3-Embedding-4B"),
+        max_tokens=32768,
+        instruction_template=instruction_template,
+        # normalize=True,
+        # truncate=True,
+    ),
+    name="hftei/Qwen/Qwen3-Embedding-4B",
+    languages=multilingual_langs,
+    open_weights=True,
+    revision="636cd9bf47d976946cdbb2b0c3ca0cb2f8eea5ff",  # Commit of @tomaarsen
+    release_date="2025-06-05",
+    n_parameters=4021774336,
+    memory_usage_mb=15341,
+    embed_dim=2560,
+    max_tokens=32768,
+    license="apache-2.0",
+    reference="https://huggingface.co/Qwen/Qwen3-Embedding-4B",
+    similarity_fn_name="cosine",
+    framework=["Sentence Transformers", "PyTorch"],
     use_instructions=True,
     public_training_code=None,
     public_training_data=None,

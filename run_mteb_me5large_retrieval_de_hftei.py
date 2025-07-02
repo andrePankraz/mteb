@@ -3,16 +3,18 @@ from __future__ import annotations
 
 import mteb
 
-model = mteb.get_model("hftei/Qwen/Qwen3-Embedding-0.6B")
+model = mteb.get_model("hftei/intfloat/multilingual-e5-large-instruct")
 
-tasks = mteb.get_tasks(tasks=["GermanQuAD-Retrieval"])
+tasks = mteb.get_tasks(
+    tasks=["GermanQuAD-Retrieval", "GermanDPR"]  # , "XMarket", "GerDaLIR"]
+)
 evaluation = mteb.MTEB(tasks=tasks)
 results = evaluation.run(
     model,
     verbosity=2,
     overwrite_results=True,
     # encode_kwargs={
-    #     "batch_size": 1
+    #     "batch_size": 1  # Local 4 GB notebook GPU needs very small batch size, default is 128?
     # },
 )
 
