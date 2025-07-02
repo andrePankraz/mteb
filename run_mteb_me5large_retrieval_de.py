@@ -5,7 +5,9 @@ import mteb
 
 model = mteb.get_model("intfloat/multilingual-e5-large-instruct")
 
-tasks = mteb.get_tasks(tasks=["GermanQuAD-Retrieval"])
+tasks = mteb.get_tasks(
+    tasks=["GermanQuAD-Retrieval", "GermanDPR"]  # , "XMarket", "GerDaLIR"]
+)
 evaluation = mteb.MTEB(tasks=tasks)
 results = evaluation.run(
     model,

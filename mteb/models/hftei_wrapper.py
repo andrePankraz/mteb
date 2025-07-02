@@ -99,6 +99,7 @@ class InstructHfteiWrapper(Wrapper):
 
         if instruction:
             logger.info(f"Using instruction: '{instruction}' for task: '{task_name}'")
+            sentences = [instruction + sentence for sentence in sentences]
 
         # requires_package(self, "openai", "Openai text embedding")
 

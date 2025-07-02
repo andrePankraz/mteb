@@ -13,10 +13,10 @@ results = evaluation.run(
     model,
     verbosity=2,
     overwrite_results=True,
-    # encode_kwargs={
-    #     "batch_size": 1
-    #     "mrl_dim": 1024
-    # },
+    encode_kwargs={
+        # "batch_size": 1
+        # "mrl_dim": 1024
+    },
 )
 
 for result in results:
